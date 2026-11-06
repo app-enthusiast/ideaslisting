@@ -54,6 +54,7 @@ class IdeaController extends Controller
     public function edit(Idea $idea)
     {
         //
+        return view("ideas.edit", compact("idea"));
     }
 
     /**
@@ -62,6 +63,12 @@ class IdeaController extends Controller
     public function update(Request $request, Idea $idea)
     {
         //
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+        $idea->update($validated);
+        return redirect()->route('ideas.index')->with('success','Idea updated successfully.');
     }
 
     /**
@@ -70,5 +77,7 @@ class IdeaController extends Controller
     public function destroy(Idea $idea)
     {
         //
+        $idea->delete();
+        return redirect()->route('ideas.index')->with('success','Idea deleted successfully.');
     }
 }

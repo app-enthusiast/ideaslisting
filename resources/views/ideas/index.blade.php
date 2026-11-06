@@ -20,14 +20,26 @@
 
 
             <!-- Success Message -->
-            @if(session('success'))
+            {{-- @if(session('success'))
 
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
 
-            @endif
+            @endif --}}
+            @if(session('success'))
 
+             <div class="alert alert-success alert-dismissible fade show">
+
+                 {{ session('success') }}
+
+                 <button type="button"
+                      class="btn-close"
+                        data-bs-dismiss="alert">
+                 </button>
+            </div>
+
+            @endif
 
             <!-- Idea Submission Form -->
             <div class="card shadow-sm border-0 mb-5">
@@ -113,6 +125,7 @@
             @forelse($ideas as $idea)
 
                 <x-idea-card :idea="$idea" />
+            
 
             @empty
 
