@@ -10,11 +10,21 @@ class IdeaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ideas= Idea::latest()->get();
-        return view("ideas.index", compact("ideas"));
-        //
+        // Get the search input from the request
+        $search = $request->input('search'); 
+        // Filter ideas if a search query exists, otherwise grab the latest
+         $ideas = Idea::when($search, function ($query, $search) {
+            return $query->where('title', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->get(); 
+        // Pass the ideas and the search term back to your view
+        return view('ideas.index', [
+        'ideas' => $ideas,
+        'search' => $search
+        ]); 
     }
 
     /**
@@ -62,7 +72,6 @@ class IdeaController extends Controller
      */
     public function update(Request $request, Idea $idea)
     {
-        //
         $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',

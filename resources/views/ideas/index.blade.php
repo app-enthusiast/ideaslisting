@@ -118,10 +118,42 @@
 
 
             <!-- Submitted Ideas -->
-            <h3 class="fw-bold mb-4">
+            <!-- <h3 class="fw-bold mb-4">
                 Recently Submitted Ideas
-            </h3>
+            </h3> -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
 
+                <h3 class="fw-bold mb-0">
+                 Recently Submitted Ideas
+                </h3>
+
+            </div>
+            <!-- Search Form -->
+             <form action="{{ route('ideas.index') }}" method="GET" class="mb-4">
+
+                <div class="input-group">
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search ideas by title or description..."
+                        value="{{ $search }}"
+                    >
+
+                    <button class="btn btn-primary" type="submit">
+                        Search
+                    </button>
+
+                    @if($search)
+                        <a href="{{ route('ideas.index') }}" class="btn btn-secondary">
+                            Clear
+                        </a>
+                    @endif
+
+                </div>
+
+            </form>
             @forelse($ideas as $idea)
 
                 <x-idea-card :idea="$idea" />
